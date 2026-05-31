@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#2c7da0">
+    <meta name="description" content="Mente en Marcha · Meditación progresiva para enfoque y constancia en tareas de mediano y largo plazo. 30 días, de lo simple a lo complejo.">
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%234a7c59'/%3E%3Cpath d='M50,30 Q58,45 50,60 Q42,45 50,30' fill='%23f7f3e0'/%3E%3Cpath d='M35,55 Q50,40 65,55' stroke='%23f7f3e0' stroke-width='2' fill='none'/%3E%3Ctext x='50' y='78' font-size='20' text-anchor='middle' fill='%23f7f3e0'%3E🧘%3C/text%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%234a7c59'/%3E%3Cpath d='M50,30 Q58,45 50,60 Q42,45 50,30' fill='%23f7f3e0'/%3E%3Cpath d='M35,55 Q50,40 65,55' stroke='%23f7f3e0' stroke-width='2' fill='none'/%3E%3Ctext x='50' y='78' font-size='20' text-anchor='middle' fill='%23f7f3e0'%3E🧘%3C/text%3E%3C/svg%3E">
+    
+    <title>Mente en Marcha · Enfoque y constancia</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: #e9f0e8;
+            color: #2c3e2f;
+            padding: 0 0 80px 0;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4a7c59, #2c5e3a);
+            color: white;
+            padding: 1.5rem 1rem;
+            border-radius: 0 0 2rem 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .header h1 {
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .header p {
+            opacity: 0.9;
+            font-size: 0.85rem;
+        }
+
+        .streak-card {
+            background: white;
+            border-radius: 2rem;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            border: 1px solid #d4e2d0;
+        }
+        .streak-number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #e67e22;
+        }
+
+        .recommend-card {
+            background: #fef9e6;
+            border-left: 6px solid #e67e22;
+            border-radius: 1.2rem;
+            padding: 0.8rem 1rem;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .recommend-title {
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+        }
+        .recommend-card strong {
+            color: #e67e22;
+        }
+        #recommendText {
+            font-size: 0.9rem;
+        }
+
+        .level-section {
+            margin-bottom: 1.5rem;
+        }
+        .level-title {
+            background: #d4e2d0;
+            padding: 0.6rem 1rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+        }
+        .exercise-item {
+            background: white;
+            border-radius: 1rem;
+            padding: 0.8rem;
+            margin-bottom: 0.6rem;
+            border: 1px solid #d4e2d0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.05s;
+        }
+        .exercise-item.completed {
+            background: #e8f0e5;
+            opacity: 0.7;
+        }
+        .exercise-badge {
+            font-size: 0.7rem;
+            background: #4a7c59;
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 1rem;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+        .meditation-card {
+            background: white;
+            max-width: 90%;
+            width: 500px;
+            max-height: 90%;
+            overflow-y: auto;
+            border-radius: 2rem;
+            padding: 1.5rem;
+            position: relative;
+        }
+        .timer-circle {
+            width: 180px;
+            height: 180px;
+            margin: 1rem auto;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .timer-svg {
+            transform: rotate(-90deg);
+        }
+        .timer-text {
+            position: absolute;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2c5e3a;
+        }
+        .btn-audio, .btn-close, .btn-start {
+            background: #4a7c59;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0.3rem;
+        }
+        .btn-complete-med {
+            background: #e67e22;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        .progress-bar {
+            background: #e0e0e0;
+            border-radius: 1rem;
+            height: 8px;
+            width: 100%;
+            margin: 1rem 0;
+        }
+        .progress-fill {
+            background: #4a7c59;
+            width: 0%;
+            height: 8px;
+            border-radius: 1rem;
+        }
+        .hidden {
+            display: none;
+        }
+        footer {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #6b8ba0;
+            margin-top: 2rem;
+        }
+        button:active { transform: scale(0.97); }
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: #2c3e2f;
+            color: white;
+            padding: 0.8rem;
+            border-radius: 2rem;
+            text-align: center;
+            z-index: 1100;
+            animation: fadeOut 2s forwards;
+        }
+        @keyframes fadeOut {
+            0% { opacity: 0; transform: translateY(20px);}
+            15% { opacity: 1; transform: translateY(0);}
+            85% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden;}
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>🧘★ Mente en Marcha</h1>
+    <p>30 días de meditación progresiva · Enfoque y constancia en tareas a mediano/largo plazo</p>
+</div>
+
+<div class="container">
+    <div class="streak-card">
+        <span>🔥 Racha actual</span>
+        <span><span class="streak-number" id="streakCount">0</span> días</span>
+    </div>
+
+    <div id="recommendCard" class="recommend-card">
+        <div class="recommend-title">✨ Recomendado para hoy</div>
+        <div id="recommendText">Cargando...</div>
+    </div>
+
+    <div id="exercisesList"></div>
+
+    <footer>Mente en Marcha · Offline · Progreso automático · Enfoque y constancia</footer>
+</div>
+
+<script>
+    // ============================================================
+    // EJERCICIOS: Secuencia para enfoque y constancia (mediano/largo plazo)
+    // ============================================================
+    const EJERCICIOS = [
+        // NIVEL 1: Fundamentos del anclaje (días 1-10)
+        { id: 1, nivel: 1, orden: 1, titulo: "Anclaje en la respiración", autor: "Secuencia Enfoque", duracion_seg: 60, tema: "anclaje", tecnica: "Siéntate con espalda erguida. Manos en muslos. Cuenta 10 respiraciones. Al distraerte, vuelve a 1 sin juzgarte. Cada vuelta es un entrenamiento para la constancia.", fuente: "Fase 1 de secuencia enfoque" },
+        { id: 2, nivel: 1, orden: 2, titulo: "Intención del día", autor: "Secuencia Enfoque", duracion_seg: 90, tema: "intención", tecnica: "Respira 3 veces. Luego pregúntate: '¿Cuál es la tarea más importante que puedo avanzar hoy?' Visualiza el primer paso concreto, no el resultado final.", fuente: "Fase 4 adaptada" },
+        { id: 3, nivel: 1, orden: 3, titulo: "Reinicio amable", autor: "Secuencia Enfoque", duracion_seg: 60, tema: "reinicio", tecnica: "Nota cuando tu mente se dispersó. Sonríe suavemente. Di: 'Ahora vuelvo'. Regresa a la respiración. Este ciclo es el corazón de la constancia.", fuente: "Anclaje + reinicio" },
+        { id: 4, nivel: 1, orden: 4, titulo: "Una tarea, un punto", autor: "Secuencia Enfoque", duracion_seg: 90, tema: "foco único", tecnica: "Elige una mancha en la pared o un punto imaginario. Mantén la atención ahí. Cuando te vayas (pensamientos, planes), regresa suavemente al punto.", fuente: "Fase 1 extendida" },
+        { id: 5, nivel: 1, orden: 5, titulo: "Entre tarea y tarea", autor: "Secuencia Enfoque", duracion_seg: 60, tema: "transición", tecnica: "Termina una actividad. Antes de empezar la siguiente, respira 5 veces. Siente el momento vacío entre ambas. No apiles tareas mentalmente.", fuente: "Preparación" },
+        { id: 6, nivel: 1, orden: 6, titulo: "La incomodidad como maestra", autor: "Secuencia Enfoque", duracion_seg: 90, tema: "incomodidad", tecnica: "Siente una pequeña molestia (picazón, calor, frio, impaciencia). No te muevas. Observa cómo cambia sola. Entrenas tolerancia a la frustración.", fuente: "Fase 3 reducida" },
+        { id: 7, nivel: 1, orden: 7, titulo: "Un objeto cotidiano", autor: "Secuencia Enfoque", duracion_seg: 90, tema: "observación", tecnica: "Toma un lápiz o taza. Obsérvalo 90 segundos como si fuera la primera vez. Forma, color, textura. Sin juicios. Solo percepción.", fuente: "Concentración externa" },
+        { id: 8, nivel: 1, orden: 8, titulo: "El cuerpo sentado", autor: "Secuencia Enfoque", duracion_seg: 90, tema: "cuerpo", tecnica: "Siente el contacto de tu cuerpo con la silla o suelo. Nota el peso. Sube atención: glúteos → espalda → hombros → cabeza.", fuente: "Preparación" },
+        { id: 9, nivel: 1, orden: 9, titulo: "Sonidos sin etiquetar", autor: "Secuencia Enfoque", duracion_seg: 90, tema: "escucha", tecnica: "Escucha todos los sonidos sin nombrarlos. No digas 'auto' ni 'viento'. Solo sonido puro. Entrenas atención abierta.", fuente: "Apertura atencional" },
+        { id: 10, nivel: 1, orden: 10, titulo: "La urgencia sin actuar", autor: "Secuencia Enfoque", duracion_seg: 90, tema: "impulso", tecnica: "Nota la sensación de 'quiero terminar rápido' o 'quiero cambiar de tarea'. Quédate con ella 90 segundos sin actuar. El impulso pasa solo.", fuente: "Fase 3" },
+        
+        // NIVEL 2: Visualización y obstáculos (días 11-20)
+        { id: 11, nivel: 2, orden: 1, titulo: "Visualizar una tarea real", autor: "Secuencia Enfoque", duracion_seg: 120, tema: "visualización", tecnica: "Imagina una tarea concreta a 3-6 meses (ej: informe, estudio, proyecto). Visualízate realizando una acción pequeña y repetible durante 30 segundos. Siente calma ligera, no euforia.", fuente: "Fase 2" },
+        { id: 12, nivel: 2, orden: 2, titulo: "Anticipar la interrupción", autor: "Secuencia Enfoque", duracion_seg: 120, tema: "obstáculos", tecnica: "Trae a tu mente una interrupción habitual (procrastinar, ruido, cansancio). Nota cómo reacciona tu cuerpo (hombros tensos). Inhala hacia esa zona, exhala soltando. Di: 'La incomodidad es parte del proceso'.", fuente: "Fase 3" },
+        { id: 13, nivel: 2, orden: 3, titulo: "El compromiso post-meditación", autor: "Secuencia Enfoque", duracion_seg: 60, tema: "compromiso", tecnica: "Elige UNA acción mínima para hoy relacionada con tu meta (5 minutos de trabajo). Repite: 'La constancia no es motivación, es retorno voluntario a la tarea'.", fuente: "Fase 4" },
+        { id: 14, nivel: 2, orden: 4, titulo: "La respiración como ancla larga", autor: "Secuencia Enfoque", duracion_seg: 120, tema: "anclaje largo", tecnica: "20 respiraciones contadas. Cada vez que te pierdas, reinicia desde 1 sin frustración. El número no importa; el reinicio sí.", fuente: "Fase 1 extendida" },
+        { id: 15, nivel: 2, orden: 5, titulo: "La pared del año", autor: "Secuencia Enfoque", duracion_seg: 120, tema: "largo plazo", tecnica: "Visualiza una pared de ladrillos. Cada ladrillo es un día de práctica constante. Hoy pones un ladrillo más. La pared no se ve, pero crece.", fuente: "Metáfora de constancia" },
+        { id: 16, nivel: 2, orden: 6, titulo: "El diálogo interno que distrae", autor: "Secuencia Enfoque", duracion_seg: 120, tema: "pensamientos", tecnica: "Cuando aparezca 'esto es aburrido' o 'no sirvo para esto', obsérvalo como una nube. No lo pelees. Vuelve a la respiración. El pensamiento no es orden.", fuente: "Fase 3" },
+        { id: 17, nivel: 2, orden: 7, titulo: "Pequeño avance, gran recompensa", autor: "Secuencia Enfoque", duracion_seg: 120, tema: "motivación", tecnica: "Imagina que haces 5 minutos de una tarea que evitas. Luego, una recompensa simple (beber agua, estirarte). Asocia acción placentera con esfuerzo.", fuente: "Condicionamiento positivo" },
+        { id: 18, nivel: 2, orden: 8, titulo: "Postura de trabajo consciente", autor: "Secuencia Enfoque", duracion_seg: 120, tema: "postura", tecnica: "Ajusta tu silla, espalda, pies en el suelo. Siente cómo esta postura te prepara para la acción. La postura es un ancla física.", fuente: "Preparación" },
+        { id: 19, nivel: 2, orden: 9, titulo: "Recordar el 'para qué'", autor: "Secuencia Enfoque", duracion_seg: 120, tema: "propósito", tecnica: "¿Por qué empezaste este proyecto a largo plazo? (seguridad, libertad, aprendizaje). Siente ese 'para qué' en el pecho. Úsalo como combustible suave.", fuente: "Motivación intrínseca" },
+        { id: 20, nivel: 2, orden: 10, titulo: "Aceptar el reinicio diario", autor: "Secuencia Enfoque", duracion_seg: 120, tema: "reinicio diario", tecnica: "Cada día es nuevo. No importa si ayer fallaste. Hoy respiras, anclas, eliges una acción mínima. La constancia es volver, no nunca fallar.", fuente: "Fase 4" },
+        
+        // NIVEL 3: Integración para mediano/largo plazo (días 21-30)
+        { id: 21, nivel: 3, orden: 1, titulo: "El obstáculo real", autor: "Secuencia Enfoque", duracion_seg: 180, tema: "obstáculo real", tecnica: "Identifica un obstáculo real que enfrentaste esta semana. Respira hacia la tensión que genera. Luego imagina una respuesta hábil (pausa, pregunta, acción pequeña).", fuente: "Fase 3 avanzada" },
+        { id: 22, nivel: 3, orden: 2, titulo: "Mapa de 6 meses", autor: "Secuencia Enfoque", duracion_seg: 180, tema: "planificación", tecnica: "Visualiza una línea de tiempo de 6 meses. Hoy es el día 1. Cada semana es un paso. No necesitas ver el final. Solo el siguiente paso.", fuente: "Fase 2 extendida" },
+        { id: 23, nivel: 3, orden: 3, titulo: "La fatiga de la constancia", autor: "Secuencia Enfoque", duracion_seg: 180, tema: "fatiga", tecnica: "Si sientes agotamiento mental, respira hacia el cansancio sin huir. Di: 'Descansar también es constancia si vuelvo'. Identifica una micro-pausa real para hoy.", fuente: "Gestión de energía" },
+        { id: 24, nivel: 3, orden: 4, titulo: "El sábado de revisión", autor: "Secuencia Enfoque", duracion_seg: 180, tema: "revisión", tecnica: "Repasa tu semana: ¿Cuántos días hiciste tu acción mínima? Sin culpa. Solo observa. Elige UNA mejora para la próxima semana.", fuente: "Feedback sin juicio" },
+        { id: 25, nivel: 3, orden: 5, titulo: "El miedo a no cumplir", autor: "Secuencia Enfoque", duracion_seg: 180, tema: "miedo", tecnica: "Visualiza el temor a fracasar en tu meta. Dale forma, color. Luego respira y dale espacio. No lo empujes. El miedo se disuelve al observarlo.", fuente: "Fase 3 profunda" },
+        { id: 26, nivel: 3, orden: 6, titulo: "Anclaje en movimiento", autor: "Secuencia Enfoque", duracion_seg: 180, tema: "movimiento", tecnica: "Camina 20 pasos muy despacio. Cada pisada: 'ahora'. Cada paso: 'sigo'. Lleva esta atención a tu siguiente tarea.", fuente: "Integración motriz" },
+        { id: 27, nivel: 3, orden: 7, titulo: "Recordatorio ambiental", autor: "Secuencia Enfoque", duracion_seg: 120, tema: "recordatorio", tecnica: "Elige un objeto de tu escritorio (taza, nota, planta). Asócialo mentalmente con tu meta a largo plazo. Cada vez que lo veas, respirarás conscientemente.", fuente: "Anclaje externo" },
+        { id: 28, nivel: 3, orden: 8, titulo: "La acción mínima automática", autor: "Secuencia Enfoque", duracion_seg: 120, tema: "automatización", tecnica: "Define una acción de 2 minutos que harás SIEMPRE antes de tu tarea principal (ej: abrir la carpeta, escribir una línea). Ensáyala mentalmente.", fuente: "Hábito atómico" },
+        { id: 29, nivel: 3, orden: 9, titulo: "Meditación del retorno", autor: "Secuencia Enfoque", duracion_seg: 180, tema: "retorno", tecnica: "Cada vez que te distraigas en esta meditación (y ocurrirá muchas veces), celebra mentalmente: 'Un retorno más a la constancia'. Hazlo 10 veces.", fuente: "Celebración del error" },
+        { id: 30, nivel: 3, orden: 10, titulo: "Tu plan de 30 días", autor: "Secuencia Enfoque", duracion_seg: 180, tema: "cierre", tecnica: "Revisa los últimos 29 días. Escribe mentalmente una tarea a mediano plazo que avanzarás. Comprométete a 5 minutos HOY. Felicítate por terminar.", fuente: "Fase 4 + cierre" }
+    ];
+
+    // ============================================================
+    // CONFIGURACIÓN Y ALMACENAMIENTO
+    // ============================================================
+    const STORAGE_KEYS = {
+        PROGRESS: 'mente_progreso',
+        LAST_VISIT: 'mente_last_visit',
+        STREAK: 'mente_streak'
+    };
+
+    let progreso = {};
+    let streak = 0;
+    let ejercicioActivo = null;
+    let temporizadorInterval = null;
+    let tiempoRestante = 0;
+
+    function cargarProgreso() {
+        const guardado = localStorage.getItem(STORAGE_KEYS.PROGRESS);
+        if(guardado) {
+            progreso = JSON.parse(guardado);
+        } else {
+            progreso = {};
+            EJERCICIOS.forEach(ej => { progreso[ej.id] = null; });
+        }
+    }
+
+    function guardarProgreso() {
+        localStorage.setItem(STORAGE_KEYS.PROGRESS, JSON.stringify(progreso));
+    }
+
+    function marcarCompletado(id) {
+        const hoy = new Date().toISOString().slice(0,10);
+        progreso[id] = hoy;
+        guardarProgreso();
+        actualizarRacha();
+        renderizarLista();
+        actualizarRecomendacion();
+        mostrarToast(`✅ ¡Completaste el ejercicio ${id}!`);
+    }
+
+    function estaCompletado(id) {
+        return progreso[id] !== null;
+    }
+
+    function actualizarRacha() {
+        const hoy = new Date().toISOString().slice(0,10);
+        const ultimaVisita = localStorage.getItem(STORAGE_KEYS.LAST_VISIT);
+        let rachaActual = parseInt(localStorage.getItem(STORAGE_KEYS.STREAK)) || 0;
+        
+        if(!ultimaVisita) {
+            rachaActual = 1;
+        } else {
+            const diff = Math.floor((new Date(hoy) - new Date(ultimaVisita)) / (1000*60*60*24));
+            if(diff === 1) rachaActual++;
+            else if(diff > 1) rachaActual = 1;
+        }
+        streak = rachaActual;
+        localStorage.setItem(STORAGE_KEYS.STREAK, streak);
+        localStorage.setItem(STORAGE_KEYS.LAST_VISIT, hoy);
+        document.getElementById('streakCount').innerText = streak;
+    }
+
+    function obtenerSiguienteRecomendado() {
+        for(let ej of EJERCICIOS) {
+            if(!estaCompletado(ej.id)) return ej;
+        }
+        return null;
+    }
+
+    function actualizarRecomendacion() {
+        const rec = obtenerSiguienteRecomendado();
+        const div = document.getElementById('recommendText');
+        const card = document.getElementById('recommendCard');
+        if(rec) {
+            div.innerHTML = `<strong>${rec.titulo}</strong> (${rec.autor}) · ${Math.floor(rec.duracion_seg/60)} min<br>
+                             <span style="font-size:0.8rem;">🎯 ${rec.tecnica.substring(0,80)}...</span>`;
+            card.onclick = () => abrirMeditacion(rec.id);
+        } else {
+            div.innerHTML = "🎉 ¡Completaste los 30 días! Vuelve a practicar tus favoritos.";
+            card.onclick = null;
+        }
+    }
+
+    function renderizarLista() {
+        const container = document.getElementById('exercisesList');
+        let html = '';
+        const niveles = [1,2,3];
+        const nombresNivel = {1: "🌱 Fundamentos del anclaje · días 1-10", 2: "🌿 Visualización y obstáculos · días 11-20", 3: "🧘 Integración para largo plazo · días 21-30"};
+        
+        for(let nivel of niveles) {
+            const ejerciciosNivel = EJERCICIOS.filter(e => e.nivel === nivel);
+            html += `<div class="level-section">
+                        <div class="level-title" data-nivel="${nivel}">${nombresNivel[nivel]} <span>▼</span></div>
+                        <div class="level-content" id="nivel-${nivel}">`;
+            for(let ej of ejerciciosNivel) {
+                const completado = estaCompletado(ej.id);
+                html += `<div class="exercise-item ${completado ? 'completed' : ''}" data-id="${ej.id}">
+                            <div><strong>${ej.orden}. ${ej.titulo}</strong><br>
+                            <span style="font-size:0.7rem;">${ej.autor} · ${Math.floor(ej.duracion_seg/60)} min</span></div>
+                            <div class="exercise-badge">${completado ? '✓' : '▶'}</div>
+                         </div>`;
+            }
+            html += `</div></div>`;
+        }
+        container.innerHTML = html;
+        
+        document.querySelectorAll('.level-title').forEach(title => {
+            title.addEventListener('click', () => {
+                const nivel = title.getAttribute('data-nivel');
+                const content = document.getElementById(`nivel-${nivel}`);
+                if(content.style.display === 'none') content.style.display = 'block';
+                else content.style.display = 'none';
+            });
+        });
+        
+        document.querySelectorAll('.exercise-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                const id = parseInt(item.getAttribute('data-id'));
+                abrirMeditacion(id);
+            });
+        });
+    }
+
+    // ============================================================
+    // REFUERZO POST-MEDITACIÓN (acción mínima)
+    // ============================================================
+    function mostrarRefuerzoPostMeditacion(ejercicio) {
+        if (ejercicio.tema === "compromiso" || ejercicio.id === 13 || ejercicio.id === 30) {
+            setTimeout(() => {
+                const confirmar = confirm("✨ Has completado un ejercicio de compromiso. ¿Quieres anotar tu acción mínima para hoy?");
+                if (confirmar) {
+                    const accion = prompt("Escribe UNA acción de ≤5 minutos que harás ahora:", "Abrir el documento/proyecto");
+                    if (accion && accion.trim()) {
+                        localStorage.setItem('mente_accion_hoy', accion);
+                        mostrarToast(`📝 Anotado: "${accion}". ¡Hazlo ahora!`);
+                    }
+                }
+            }, 500);
+        }
+    }
+
+    // ============================================================
+    // MODAL DE MEDITACIÓN
+    // ============================================================
+    function abrirMeditacion(id) {
+        const ejercicio = EJERCICIOS.find(e => e.id === id);
+        if(!ejercicio) return;
+        ejercicioActivo = ejercicio;
+        tiempoRestante = ejercicio.duracion_seg;
+        
+        const modal = document.createElement('div');
+        modal.className = 'modal-overlay';
+        modal.innerHTML = `
+            <div class="meditation-card">
+                <h3>🧘 ${ejercicio.titulo}</h3>
+                <p><strong>${ejercicio.autor}</strong> · ${Math.floor(ejercicio.duracion_seg/60)} min<br>
+                <span style="font-size:0.75rem;">📖 ${ejercicio.fuente}</span></p>
+                <div style="background:#f0f4ee; padding:0.8rem; border-radius:1rem; margin:0.5rem 0;">
+                    <p>${ejercicio.tecnica}</p>
+                </div>
+                <div class="timer-circle">
+                    <svg class="timer-svg" width="180" height="180" viewBox="0 0 180 180">
+                        <circle cx="90" cy="90" r="80" fill="none" stroke="#d4e2d0" stroke-width="8"/>
+                        <circle id="progressCircle" cx="90" cy="90" r="80" fill="none" stroke="#4a7c59" stroke-width="8" stroke-dasharray="502" stroke-dashoffset="502" stroke-linecap="round"/>
+                    </svg>
+                    <div class="timer-text" id="timerText">${Math.floor(tiempoRestante/60)}:${(tiempoRestante%60).toString().padStart(2,'0')}</div>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+                <div style="display:flex; gap:0.5rem; justify-content:center;">
+                    <button id="audioBtn" class="btn-audio">🔊 Escuchar guía</button>
+                    <button id="startTimerBtn" class="btn-start">▶ Iniciar</button>
+                    <button id="closeModalBtn" class="btn-close">✖ Cerrar</button>
+                </div>
+                <button id="completeMedBtn" class="btn-complete-med">✅ Marcar como completado</button>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        
+        function actualizarCirculo(restante, total) {
+            const circle = document.getElementById('progressCircle');
+            if(circle) {
+                const dasharray = 2 * Math.PI * 80;
+                const offset = dasharray * (restante / total);
+                circle.style.strokeDashoffset = offset;
+            }
+            const fill = document.getElementById('progressFill');
+            if(fill) fill.style.width = `${((total-restante)/total)*100}%`;
+            const textDiv = document.getElementById('timerText');
+            if(textDiv) {
+                const mins = Math.floor(restante/60);
+                const segs = restante % 60;
+                textDiv.innerText = `${mins}:${segs.toString().padStart(2,'0')}`;
+            }
+        }
+        
+        let timerRunning = false;
+        document.getElementById('startTimerBtn').addEventListener('click', () => {
+            if(timerRunning) return;
+            timerRunning = true;
+            if(temporizadorInterval) clearInterval(temporizadorInterval);
+            temporizadorInterval = setInterval(() => {
+                if(tiempoRestante > 0) {
+                    tiempoRestante--;
+                    actualizarCirculo(tiempoRestante, ejercicio.duracion_seg);
+                    if(tiempoRestante === 0) {
+                        clearInterval(temporizadorInterval);
+                        mostrarToast("🔔 Tiempo completado. ¡Bien hecho!");
+                        if(navigator.vibrate) navigator.vibrate(200);
+                    }
+                } else {
+                    clearInterval(temporizadorInterval);
+                }
+            }, 1000);
+        });
+        
+        document.getElementById('audioBtn').addEventListener('click', () => {
+            if(!window.speechSynthesis) {
+                mostrarToast("Tu navegador no soporta voz");
+                return;
+            }
+            const mensaje = `${ejercicio.titulo}. ${ejercicio.tecnica}`;
+            const utterance = new SpeechSynthesisUtterance(mensaje);
+            utterance.lang = 'es-ES';
+            utterance.rate = 0.9;
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(utterance);
+        });
+        
+        document.getElementById('closeModalBtn').addEventListener('click', () => {
+            if(temporizadorInterval) clearInterval(temporizadorInterval);
+            window.speechSynthesis.cancel();
+            modal.remove();
+        });
+        
+        document.getElementById('completeMedBtn').addEventListener('click', () => {
+            if(!estaCompletado(ejercicio.id)) {
+                marcarCompletado(ejercicio.id);
+                mostrarRefuerzoPostMeditacion(ejercicio);
+            } else {
+                mostrarToast("Ya habías completado este ejercicio");
+            }
+            if(temporizadorInterval) clearInterval(temporizadorInterval);
+            window.speechSynthesis.cancel();
+            modal.remove();
+        });
+        
+        actualizarCirculo(tiempoRestante, ejercicio.duracion_seg);
+    }
+
+    function mostrarToast(msg) {
+        let old = document.querySelector('.toast');
+        if(old) old.remove();
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.innerText = msg;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2200);
+    }
+
+    // ============================================================
+    // INICIALIZACIÓN
+    // ============================================================
+    cargarProgreso();
+    actualizarRacha();
+    renderizarLista();
+    actualizarRecomendacion();
+
+    // ============================================================
+    // SERVICE WORKER + MANIFEST (PWA offline)
+    // ============================================================
+    if('serviceWorker' in navigator) {
+        const swCode = `self.addEventListener('install', e => { e.waitUntil(caches.open('mente-v1').then(cache => cache.addAll(['/','/index.html']))); self.skipWaiting(); });
+        self.addEventListener('fetch', e => { e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))); });`;
+        const blob = new Blob([swCode], {type: 'application/javascript'});
+        navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(err => console.log("SW no registrado"));
+    }
+    
+    (function() {
+        const manifest = {
+            name: "Mente en Marcha · Enfoque y constancia",
+            short_name: "MenteMarcha",
+            start_url: "/",
+            display: "standalone",
+            theme_color: "#4a7c59",
+            background_color: "#e9f0e8",
+            icons: [{ src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%234a7c59'/%3E%3Cpath d='M50,30 Q58,45 50,60 Q42,45 50,30' fill='%23f7f3e0'/%3E%3Cpath d='M35,55 Q50,40 65,55' stroke='%23f7f3e0' stroke-width='2' fill='none'/%3E%3Ctext x='50' y='78' font-size='20' text-anchor='middle' fill='%23f7f3e0'%3E🧘%3C/text%3E%3C/svg%3E", sizes: "192x192", type: "image/svg+xml" }]
+        };
+        const link = document.createElement('link');
+        link.rel = 'manifest';
+        link.href = URL.createObjectURL(new Blob([JSON.stringify(manifest)], {type: 'application/json'}));
+        document.head.appendChild(link);
+    })();
+</script>
+</body>
+</html>
